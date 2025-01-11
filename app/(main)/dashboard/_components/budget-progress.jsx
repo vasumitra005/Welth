@@ -22,6 +22,12 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
   const [newBudget, setNewBudget] = useState(
     initialBudget?.amount?.toString() || ""
   );
+  const {
+    loading: isLoading,
+    fn: updateBudgetFn,
+    data: updatedBudget,
+    error,
+  } = useFetch(updateBudget);
   useEffect(() => {
     if (updatedBudget?.success) {
       setIsEditing(false);
@@ -34,13 +40,6 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
       toast.error(error.message || "Failed to update budget");
     }
   }, [error]);
-
-  const {
-    loading: isLoading,
-    fn: updateBudgetFn,
-    data: updatedBudget,
-    error,
-  } = useFetch(updateBudget);
 
   const percentUsed = initialBudget
     ? (currentExpenses / initialBudget.amount) * 100

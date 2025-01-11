@@ -19,6 +19,12 @@ import { toast } from "sonner";
 const AccountCard = function ({ account }) {
   const { name, type, balance, id, isDefault } = account;
 
+  const {
+    loading: updateDefaultLoading,
+    fn: updateDefaultFn,
+    data: updatedAccount,
+    error,
+  } = useFetch(updateDefaultAccount);
   useEffect(() => {
     if (updatedAccount?.success) {
       toast.success("Default account updated successfully");
@@ -31,13 +37,6 @@ const AccountCard = function ({ account }) {
       toast.error(error.message || "Failed to update default account");
     }
   }, [error]);
-
-  const {
-    loading: updateDefaultLoading,
-    fn: updateDefaultFn,
-    data: updatedAccount,
-    error,
-  } = useFetch(updateDefaultAccount);
 
   const handleDefaultChange = async (event) => {
     event.preventDefault(); // Prevent navigation
