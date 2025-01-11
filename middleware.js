@@ -1,6 +1,5 @@
-import arcjet, { createMiddleware, detectBot } from "@arcjet/next";
+import arcjet, { createMiddleware, detectBot, shield } from "@arcjet/next";
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { Big_Shoulders_Inline_Display } from "next/font/google";
 
 const isProtectedRoute = createRouteMatcher([
   "/dashboard(.*)",
@@ -11,7 +10,7 @@ const isProtectedRoute = createRouteMatcher([
 const aj = arcjet({
   key: process.env.ARCJET_KEY,
   rules: [
-    Big_Shoulders_Inline_Display({
+    shield({
       mode: "LIVE",
     }),
     detectBot({
