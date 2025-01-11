@@ -22,6 +22,18 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
   const [newBudget, setNewBudget] = useState(
     initialBudget?.amount?.toString() || ""
   );
+  useEffect(() => {
+    if (updatedBudget?.success) {
+      setIsEditing(false);
+      toast.success("Budget updated successfully");
+    }
+  }, [updatedBudget]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message || "Failed to update budget");
+    }
+  }, [error]);
 
   const {
     loading: isLoading,
@@ -49,19 +61,6 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
     setNewBudget(initialBudget?.amount?.toString() || "");
     setIsEditing(false);
   };
-
-  useEffect(() => {
-    if (updatedBudget?.success) {
-      setIsEditing(false);
-      toast.success("Budget updated successfully");
-    }
-  }, [updatedBudget]);
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message || "Failed to update budget");
-    }
-  }, [error]);
 
   return (
     <Card>
@@ -131,8 +130,8 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
                 percentUsed >= 90
                   ? "bg-red-500"
                   : percentUsed >= 75
-                  ? "bg-yellow-500"
-                  : "bg-green-500"
+                    ? "bg-yellow-500"
+                    : "bg-green-500"
               }`}
             />
             <p className="text-xs text-muted-foreground text-right">

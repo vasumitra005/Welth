@@ -19,6 +19,19 @@ import { toast } from "sonner";
 const AccountCard = function ({ account }) {
   const { name, type, balance, id, isDefault } = account;
 
+  useEffect(() => {
+    if (updatedAccount?.success) {
+      toast.success("Default account updated successfully");
+      console.log("updated default account");
+    }
+  }, [updatedAccount]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message || "Failed to update default account");
+    }
+  }, [error]);
+
   const {
     loading: updateDefaultLoading,
     fn: updateDefaultFn,
@@ -34,19 +47,6 @@ const AccountCard = function ({ account }) {
     }
     await updateDefaultFn(id);
   };
-
-  useEffect(() => {
-    if (updatedAccount?.success) {
-      toast.success("Default account updated successfully");
-      console.log("updated default account");
-    }
-  }, [updatedAccount]);
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message || "Failed to update default account");
-    }
-  }, [error]);
 
   return (
     <Card className="hover:shadow-md transition-shadow group relative">
